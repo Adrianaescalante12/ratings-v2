@@ -47,7 +47,7 @@ class Rating(db.Model):
                         autoincrement=True,
                         primary_key=True)
     score = db.Column(db.Integer)
-    move_id = db.Column(db.Integer, db.ForeignKey("movies.movie_id"))
+    movie_id = db.Column(db.Integer, db.ForeignKey("movies.movie_id"))
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
     
     movie = db.relationship("Movie", backref="ratings")
@@ -61,7 +61,7 @@ class Rating(db.Model):
 
 
 
-def connect_to_db(flask_app, db_uri="postgresql:///ratings", echo=True):
+def connect_to_db(flask_app, db_uri="postgresql:///ratings", echo=False):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
     flask_app.config["SQLALCHEMY_ECHO"] = echo
     flask_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
