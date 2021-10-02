@@ -33,14 +33,38 @@ def show_movie_details(movie_id):
 @app.route('/users')
 def show_user_email():
     users = crud.return_all_user_emails()
+
     return render_template('all_users.html', users=users)
+
+@app.route('/users', methods = ['POST'])
+def register_user():
+    email = request.form.get('email')
+    password = request.form.get('password')
+    
+    print(f"******* email is: {email}*************")
+    print(f"******* password is: {password}*************")
+    ##store this because the email we are passing into the crud function is the email from the POST request.
+    
+    user = crud.get_user_by_email(email)
+    
+    if user:
+        flash("This email is associated with an already existing account. Try again")
+    
+    else: 
+        crud.create_user(email, password)
+        flash("Congratulations. Your account has been created!")
+    
+    return redirect('/')
+
 
 @app.route('/users/<user_id>')
 def show_user_info(user_id):
     """show user info"""
 
     user_by_id = crud.get_all_user_info(user_id)
-    return render_template('all_users.html', user=user_by_id)
+    return render_template('user_details.html', user=user_by_id)
+
+# @app.route('')
 
 if __name__ == "__main__":
     # DebugToolbarExtension(app)

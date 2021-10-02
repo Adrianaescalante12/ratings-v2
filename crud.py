@@ -40,6 +40,9 @@ def get_all_user_info(user_id):
 
     return User.query.get(user_id)
 
+def get_user_by_email(email):
+    
+    return User.query.filter(User.email == email).first()
 
 def create_rating(user, movie, score):
     """Create and return a new rating."""
